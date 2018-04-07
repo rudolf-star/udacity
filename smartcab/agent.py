@@ -92,12 +92,15 @@ class LearningAgent(Agent):
 
         # Calculate the maximum Q-value of all actions for a given state
         
-        maxQ = None
+        #maxQ = None
 
-        if self.Q[state]:            
-            for action in self.Q[state]:
-                if not maxQ or self.Q[state][action] > maxQ:
-                    maxQ = self.Q[state][action]
+        if self.Q[state]:
+            maxQ = max(self.Q[state].values())
+        else:      
+            maxQ = None      
+            #for action in self.Q[state]:
+            #    if not maxQ or self.Q[state][action] > maxQ:
+            #        maxQ = self.Q[state][action]
 
         return maxQ 
 
@@ -155,8 +158,8 @@ class LearningAgent(Agent):
         # When learning, implement the value iteration update rule
         #   Use only the learning rate 'alpha' (do not use the discount factor 'gamma')
 
-        self.Q[state][action] = (1 - self.alpha) * self.Q[state][action] + self.alpha * reward
-
+        if self.learning:
+            self.Q[state][action] = (1 - self.alpha) * self.Q[state][action] + self.alpha * reward
 
         return
 
@@ -215,7 +218,7 @@ def run():
     # Flags:
     #   tolerance  - epsilon tolerance before beginning testing, default is 0.05 
     #   n_test     - discrete number of testing trials to perform, default is 0
-    sim.run(n_test=15, tolerance=0.01)
+    sim.run(n_test=10, tolerance=0.01)
     #sim.run()
 
 
